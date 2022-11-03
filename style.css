@@ -1,0 +1,101 @@
+*{
+    margin:0;
+    padding:0;
+    font-family: arial;
+}
+
+h1{
+font-size:3rem;
+font-style: italic;
+letter-spacing:4px;
+color:#ddd;
+background-size: auto;
+}
+
+body{
+padding-left: 10vw;
+height:100vh;
+display:flex;
+flex-direction:column;
+gap:10%;
+justify-content:center;
+align-items:start;
+background: url(./back.jpg);
+}
+
+main{
+    width:500px;
+   height:300px;   
+}
+label{
+    background:none;
+}
+
+fieldset{
+    width:500px;
+    height:300px;
+    border-radius: 10px;
+}
+
+input[type="text"]{
+    font-size:1rem;
+    color:#ddd;
+    width:350px;
+    border:none;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    outline:none;
+    padding-left:35px;
+    text-align: start;
+    background:none;
+}
+
+
+
+div i{
+    position:absolute;
+    color:#ddd;
+}
+
+
+input[type="password"]{
+    font-size:1rem;
+    color:#ddd;
+    width:350px;
+    padding: 10px;
+    border:none;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    padding-left:35px;
+    outline:none;
+    text-align: start;
+    background:none;
+}
+
+input[type="submit"]{
+    width:180px;
+    height:50px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    outline:none;
+    border:none;
+    background:#134568;
+    color:#fff;
+    padding: 10px;
+    font-weight: 800;
+    letter-spacing:3px;
+}
+
+.icon {
+    padding: 10px;
+    min-width: 40px;
+}
+
+form{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height: 100%;
+gap:20px;
+}
