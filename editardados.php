@@ -16,14 +16,14 @@ if(isset($_POST['senha']))
 	else
 		$senha = "";
 
-if(isset($_POST['perfil']))
-	$perfil = $_POST['perfil'];
+if(isset($_POST['ativo']))
+	$perfil = $_POST['ativo'];
 
 if(!empty($senha)){
-	$consulta = $conexao->prepare("UPDATE usuario SET nome = ?, email = ?, senha = ?, perfil = ? WHERE codigo = ?");
+	$consulta = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, senha = ?, ativo = ? WHERE cod = ?");
 	$consulta->bind_param("ssssd", $nome, $email, $senha, $perfil, $codigo);
 }else{
-	$consulta = $conexao->prepare("UPDATE usuario SET nome = ?, email = ?, perfil = ? WHERE codigo = ?");
+	$consulta = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, ativo = ? WHERE cod = ?");
 	$consulta->bind_param("sssd", $nome, $email, $perfil, $codigo);	
 }
 $consulta->execute();

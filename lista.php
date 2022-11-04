@@ -5,23 +5,24 @@ $sql = "SELECT cod, nome, email, ativo FROM usuarios";
 
 $consulta = $conexao->query($sql);
 session_start();
-$verifica = $_SESSION["login"] ;
+$verifica = $_SESSION["login"];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
-    <head>
-        <title>Lista de Usuários</title>
-        <meta charset="UTF-8" />
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" type="text/css" />
+<head>
+    <title>Lista de Usuários</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" type="text/css" />
+    <script src="https://kit.fontawesome.com/e91e8bd13f.js" crossorigin="anonymous"></script>
 
-        <script>
+    <script>
         function confirma(id) {
             var ok = confirm("Deseja realmente excluir este registro?");
             if (ok) {
-                $.post("excluir_dados.php", {
+                $.post("excluir.php", {
                     codigo: id
                 }, function(result) {
                     /*
@@ -37,11 +38,28 @@ $verifica = $_SESSION["login"] ;
             }
 
         }
-        </script>
-        <style>
+    </script>
+    <style>
+
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h1{
+            text-transform: uppercase;
+            color:#aaa;
+        }
         .btn-cadastro {
             padding: 10px;
             background-color: green;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .btn-logout {
+            padding: 10px;
+            background-color: black;
             text-transform: uppercase;
             text-decoration: none;
             color: white;
@@ -72,83 +90,93 @@ $verifica = $_SESSION["login"] ;
             align-items: center;
             height: 80px;
         }
-        </style>
+
+        .inside{
+            width: 200px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    </style>
 
 
 
-    </head>
+</head>
 
-    <body>
-        <div id="page">
-            <div class='control'>
-                <h1>Lista de Usuários</h1>
+<body>
+    <div id="page">
+        <div class='control'>
+            <h1>Lista de Usuários</h1>
 
-                <?php 
+            <?php
 
-if($verifica){
-echo "<a href='cadastro.php' class='btn-cadastro'>Cadastrar</a>";
-}else{
-    echo "";
-}
+            if ($verifica) {
+                echo "<div class='inside'>";
+                echo "<a href='cadastro.php' class='btn-cadastro'><i class='fa-solid fa-plus'></i></a>";
+                echo '<a href="logout.php" class="btn-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>';
+                echo "</div>";
+            } else {
+                echo "";
+            }
 
-?>
-
-
-
-            </div>
-
-            <table id="usuarios" class="display" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Ativo</th>
-                        <th></th>
-                        <th></th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                   
-
-if($verifica == true){
-   
-           
-
-    while($linha = mysqli_fetch_array($consulta)){
-        echo "<tr id='linha{$linha['cod']}'>";
-        echo "<td>".$linha['cod']."</td>";
-        echo "<td>".$linha['nome']."</td>";
-        echo "<td>".$linha['email']."</td>";
-        echo "<td>".$linha['ativo']."</td>";
-        echo "<td><a href='alterar.php?id={$linha['cod']}' class='btn-editar'>Editar</a></td>";
-        echo "<td><a href='javascript:confirma({$linha['cod']});' class='btn-excluir'>Excluir</a></td>";
-        echo "</tr>";
-    }
-}else{
-    header("Location: erro.php");
-
-    die();
-}
+            ?>
 
 
-			?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Ativo</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
 
-            <script>
+        </div>
+
+        <table id="usuarios" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ativo</th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+
+
+                if ($verifica == true) {
+
+
+
+                    while ($linha = mysqli_fetch_array($consulta)) {
+                        echo "<tr id='linha{$linha['cod']}'>";
+                        echo "<td>" . $linha['cod'] . "</td>";
+                        echo "<td>" . $linha['nome'] . "</td>";
+                        echo "<td>" . $linha['email'] . "</td>";
+                        echo "<td>" . $linha['ativo'] . "</td>";
+                        echo "<td><a href='alterar.php?id={$linha['cod']}' class='btn-editar'><i class='fa-solid fa-pen-to-square'></i></a></td>";
+                        echo "<td><a href='javascript:confirma({$linha['cod']});' class='btn-excluir'><i class='fa-solid fa-trash'></i></a></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    header("Location: erro.php");
+
+                    die();
+                }
+
+
+                ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ativo</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <script>
             $(document).ready(function() {
                 $('#usuarios').DataTable({
                     "language": {
@@ -156,9 +184,9 @@ if($verifica == true){
                     }
                 });
             });
-            </script>
+        </script>
 
-        </div>
-    </body>
+    </div>
+</body>
 
 </html>

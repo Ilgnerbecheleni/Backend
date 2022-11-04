@@ -1,16 +1,30 @@
 <?php
-require_once("conexao.php");
 
-$id = $_GET['id'];
+session_start();
 
-$sql = "SELECT cod, nome, email, ativo FROM usuarios
- WHERE cod = {$id}";
- 
-$consulta = $conexao->query($sql);
+$status = $_SESSION['login'];
 
-$linha = mysqli_fetch_array($consulta);
+if($status){
+    require_once("conexao.php");
 
-//print_r($linha);
+    $id = $_GET['id'];
+    
+    $sql = "SELECT cod, nome, email, ativo FROM usuarios
+     WHERE cod = {$id}";
+     
+    $consulta = $conexao->query($sql);
+    
+    $linha = mysqli_fetch_array($consulta);
+    
+    //print_r($linha);
+}else{
+    header("Location: erro.php");
+
+    die();
+}
+
+
+
 
 ?>
 
@@ -21,6 +35,7 @@ $linha = mysqli_fetch_array($consulta);
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>cadastro</title>
 
         <style>
@@ -97,11 +112,13 @@ $linha = mysqli_fetch_array($consulta);
     <body>
         <nav>
 
-            <form action="editardados.php">
+            <form action="editardados.php" name="frmCadastro" id="frmCadastro">
+                    <input type="hidden" name="codigo" value="<?php echo $linha['cod']; ?>">
+			        Código: <br/><?php echo $linha['cod']; ?><br/>
                 <label for="name">Nome</label><input type="text" value="<?php echo $linha['nome']; ?>" name="nome"
                     id="nome" required>
-                <label for="senha">Senha</label><input type="text" name="senha" id="senha" required>
-                <label for="email">E-mail</label><input type="email" value="<?php echo $linha['nome']; ?>" name="email"
+                <label for="senha">Senha</label><input type="password" name="senha" id="senha" >
+                <label for="email">E-mail</label><input type="email" value="<?php echo $linha['email']; ?>" name="email"
                     id="email" required>
                 <label for="ativo">Ativo</label>
                 <select name="ativo" id="ativo">
@@ -114,8 +131,48 @@ $linha = mysqli_fetch_array($consulta);
             </form>
 
 
+            <div id="simple-msg"></div>
 
         </nav>
+
+		
+		<script>
+			$(function(){
+				
+				$("#cadastrar").click(function(){
+
+					$("#frmCadastro").submit(function(e)
+					{
+						
+						var postData = $(this).serializeArray();
+						var formURL = $(this).attr("action");
+						$.ajax(
+						{
+							url : formURL,
+							type: "POST",
+							data : postData,
+							success:function(data, textStatus, jqXHR) 
+							{
+								$("#simple-msg").html(data);
+								$("#senha").val("");
+								
+							},
+							error: function(jqXHR, textStatus, errorThrown) 
+							{
+								
+								var error = textStatus + '<br/>' +errorThrown;
+								$("#simple-msg").html(error);
+							}
+						});
+						e.preventDefault();	//STOP default action
+						e.unbind();
+					});
+					
+				});
+				
+			});
+
+		</script>
     </body>
 
 </html>

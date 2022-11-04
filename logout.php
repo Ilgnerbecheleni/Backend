@@ -1,3 +1,8 @@
+<?php
+session_start();
+$_SESSION["login"] = false;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,13 +13,13 @@
         <title>Erro</title>
         <style>
         body {
-            background: url('./erro.png');
+            background: url('./obrigado.png');
             background-repeat: no-repeat;
             background-size: cover;
         }
 
         h1 {
-            color: white;
+           
             text-transform: uppercase;
             text-align: center;
         }
@@ -22,7 +27,7 @@
     </head>
 
     <body>
-        <h1>Desculpe Não achamos o usuário solicitado</h1>
+        <h1>Obrigado Por utilizar o Sistema</h1>
 
         <script>
         setTimeout(() => {
