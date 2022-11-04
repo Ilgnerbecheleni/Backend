@@ -3,6 +3,8 @@
 require_once("conexao.php");
 
 
+session_start();
+
 
 
 
@@ -26,7 +28,8 @@ echo $senha   ;
 
             if($linha['nome']== $nome  && $linha['senha']==$senha ){
                 header("Location: lista.php");
-
+                $_SESSION["login"]=true;
+                
                 die();
                 break;
             }
